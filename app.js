@@ -66,12 +66,15 @@ var budgetController = (function() {
 
             var ids, index;
 
+            // Get all the ids from current data structures
             ids = data.allItem[type].map(function(current) {
                 return current.id;
             });
 
+            // Get index from current ids using given id for deleting
             index = ids.indexOf(id);
 
+            // Delete item using index value
             if (index !== -1) {
                 data.allItem[type].splice(index, 1);
             }
@@ -160,6 +163,14 @@ var UIController = (function() {
 
             // Insert the HTML into DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+        },
+
+        deleteListItem: function(selectorID) {
+
+            // Get Element
+            var el = document.getElementById(selectorID);
+            // Set parentNode and remove Child node element 
+            el.parentNode.removeChild(el);
         },
 
         // Clear all the fields and focus on description field
@@ -275,8 +286,10 @@ var controller = (function(budgerCtrl, UICtrl) {
             budgerCtrl.deleteItem(type, ID);
 
             // 2. Delete the item from the UI
+            UICtrl.deleteListItem(itemID);
 
             // 3. Update and show the new budget
+            updateBudget();
 
         }
     };
